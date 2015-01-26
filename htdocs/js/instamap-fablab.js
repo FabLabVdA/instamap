@@ -51,19 +51,19 @@ function drawInstaMarkers() {
         SmallIcon: 'img/marker_IG.png',
         LargeIcon: 'img/marker_IG@2x.png',
         draggable: false,
-        position: new google.maps.LatLng(data[i].lat, data[i].lon),
+        position: new google.maps.LatLng(data.images[i].lat, data.images[i].lon),
         map: map,
-        title: data[i].text,
+        title: data.images[i].text,
         //visible: false
       });
       markers_foto.push(insta_marker);
 
       var msg = '<div class="infobox-content scrollFix">\n' +
-        '<div class="infow_title">' + data[i].fullname + '</div>\n' +
-        '<div class="username_instagram"><a title="' + data[i].username + '" href="http://instagram.com/' + data[i].username + '">' + data[i].username + '</a></div>\n' +
-        '<div class="insta_photo"><a href="' + data[i].data.standard + '" onclick="$.colorbox({href:\'' + data[i].data.standard + '\', opacity:\'0.5\',  scalePhotos:\'true\', maxWidth:\'95%\', maxHeight:\'95%\', title:\'' + data[i].text + ' - by ' + data[i].fullname + '\'});return false;"><img src="' + data[i].data.low + '" /></a></div><br>\n' +
-        '<div class="time_instagram">' + new Date(parseInt(data[i].time, 10)) + '</div>\n' +
-        '<div class="text_instagram">' + data[i].text + '</div>\n' +
+        '<div class="infow_title">' + data.images[i].fullname + '</div>\n' +
+        '<div class="username_instagram"><a title="' + data.images[i].username + '" href="http://instagram.com/' + data.images[i].username + '">' + data.images[i].username + '</a></div>\n' +
+        '<div class="insta_photo"><a href="' + data.images[i].data.standard + '" onclick="$.colorbox({href:\'' + data.images[i].data.standard + '\', opacity:\'0.5\',  scalePhotos:\'true\', maxWidth:\'95%\', maxHeight:\'95%\', title:\'' + data.images[i].text + ' - by ' + data.images[i].fullname + '\'});return false;"><img src="' + data.images[i].data.low + '" /></a></div><br>\n' +
+        '<div class="time_instagram">' + new Date(parseInt(data.images[i].time, 10)) + '</div>\n' +
+        '<div class="text_instagram">' + data.images[i].text + '</div>\n' +
         '</div>';
       addInfoWindow(insta_marker, msg);
     }

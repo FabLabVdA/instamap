@@ -118,6 +118,7 @@ def update_json_file(file_path, images):
 
     with open(file_path, 'r+') as infile:
         old_data = ujson.load(infile)
+        old_data = old_data['images']
 
         print('DEBUG: File <%s> contained %d images'
               % (file_path, len(old_data)))
@@ -137,7 +138,7 @@ def update_json_file(file_path, images):
 
         infile.truncate(0)
 
-        ujson.dump(old_data, infile)
+        ujson.dump({'images': old_data}, infile)
 
 
 def main():
@@ -155,12 +156,14 @@ def main():
     except IOError:
         export_exists = False
 
+    images_obj = {'images': images}  # Prevents a JSON security bug with lists on the first level
+
     if export_exists:
-        update_json_file(JSON_EXPORT_FILE, images)
+        update_json_file(JSON_EXPORT_FILE, images_obj)
         print('Wrote updated `%s`.' % (JSON_EXPORT_FILE))
     else:
         with open(JSON_EXPORT_FILE, 'w') as outfile:
-            ujson.dump(images, outfile)
+            ujson.dump(images_obj, outfile)
             print('Wrote NEW `%s`.' % (JSON_EXPORT_FILE))
 
 
