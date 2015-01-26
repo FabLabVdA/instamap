@@ -150,7 +150,7 @@ def main():
 
     images = filter_images_with_like(images, LIKE_REQUIRED_FROM_USER)
 
-    export_exists = False
+    export_exists = True
     try:
         open(JSON_EXPORT_FILE)
     except IOError:
