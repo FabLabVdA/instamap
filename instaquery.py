@@ -15,7 +15,7 @@ SEARCH_TAGS = [
     'fablab',
 ]
 
-JSON_EXPORT_FILE = './export.json'
+JSON_EXPORT_FILE = './htdocs/assets/export.json'
 
 
 def get_recent_photos_with_tag(tag, client_id):
@@ -157,11 +157,11 @@ def main():
 
     if export_exists:
         update_json_file(JSON_EXPORT_FILE, images)
-        print('Wrote updated `export.json`.')
+        print('Wrote updated `%s`.' % (JSON_EXPORT_FILE))
     else:
         with open(JSON_EXPORT_FILE, 'w') as outfile:
             ujson.dump(images, outfile)
-            print('Wrote NEW `export.json`.')
+            print('Wrote NEW `%s`.' % (JSON_EXPORT_FILE))
 
 
 schedule.every(1).minutes.do(main)
