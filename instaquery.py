@@ -54,6 +54,9 @@ def get_recent_photos_with_tag(tag, client_id):
               % (url, jresp['meta']['code']))
         return None
 
+    print('DEBUG: Query for tag <"%s"> returned %d images.'
+          % (tag, len(jresp['data'])))
+
     result = []
 
     for image in jresp['data']:
@@ -84,6 +87,9 @@ def get_recent_photos_with_tag(tag, client_id):
         except:
             continue
 
+    print('DEBUG: %d images got location information out of %d total.'
+          % (len(result), len(jresp['data'])))
+
     return result
 
 
@@ -100,15 +106,21 @@ def filter_images_with_like(images, user_id):
         if user_id in image['likes']:
             filtered.append(image)
 
+    print('DEBUG: %d images out of %d got like from user <%s>'
+          % (len(filtered), len(images), user_id))
+
     return filtered
 
 
 def update_json_file(file_path, images):
     """Updates JSON file with images data preventing duplicates."""
-    new_images = []
+    new_data = []
 
     with open(file_path, 'r+') as infile:
         old_data = ujson.load(infile)
+
+        print('DEBUG: File <%s> contained %d images'
+              % (file_path, len(old_data)))
 
         for image in images:
             insert = True
@@ -116,9 +128,12 @@ def update_json_file(file_path, images):
                 if image['id'] == old_image['id']:
                     insert = False
             if insert:
-                new_images.append(image)
+                new_data.append(image)
 
-        old_data.extend(new_images)
+        print('DEBUG: File <%s> gets updated with %d new images'
+              % (file_path, len(new_data)))
+
+        old_data.extend(new_data)
 
         infile.truncate(0)
 
@@ -142,9 +157,11 @@ def main():
 
     if export_exists:
         update_json_file(JSON_EXPORT_FILE, images)
+        print('Wrote updated `export.json`.')
     else:
         with open(JSON_EXPORT_FILE, 'w') as outfile:
             ujson.dump(images, outfile)
+            print('Wrote NEW `export.json`.')
 
 
 schedule.every(1).minutes.do(main)
